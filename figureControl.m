@@ -16,6 +16,10 @@ if figs.plot
             h = figure('units','normalized','outerposition',[figs.matrix(figs.cnt,:) figs.cols 2*figs.rows]);
         case 'long'
             h = figure('units','normalized','outerposition',[figs.matrix(figs.cnt,:) figs.cols*2 figs.rows]);
+            figs.cnt = figs.cnt + 1;
+            if figs.cnt > size(figs.matrix,1)
+                figs.cnt = 1;
+            end
         case 'extra long'
             scale = 3.3;
             if figs.cnt > 1
