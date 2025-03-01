@@ -34,6 +34,9 @@ if figs.plot
                 figs.cnt = 1;
             end
         case 'double'
+            if figs.cnt < 3
+                figs.cnt = 4; 
+            end
             h = figure('units','normalized','outerposition',[figs.matrix(figs.cnt,:) figs.cols*2 2*figs.rows]);
         otherwise
             error('Select figure size: normal, tall, long, double, full');
