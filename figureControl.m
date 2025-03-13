@@ -2,6 +2,18 @@ function [figs, figName] = figureControl(figs)
 % Author: Christopher Miranda, Stanford University, Schnitzer Lab
 % Call for every figure used to control where it shows up across multiple
 % screens. Use figureInitiate.m first.
+%
+% The figureInitiate.m function supports both horizontal and vertical monitor
+% arrangements through the 'monitorArrangement' parameter:
+%   - 'horizontal' (default): For side-by-side monitors
+%   - 'vertical': For vertically stacked monitors
+%
+% Example usage:
+%   userSettings.screens = 2;
+%   userSettings.monitorArrangement = 'vertical'; % For vertically stacked monitors
+%   figs = figureInitiate(userSettings);
+%   [figs, fig1] = figureControl(figs);
+%
 if figs.plot
     switch figs.size
         case 'full'

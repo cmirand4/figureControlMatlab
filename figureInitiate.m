@@ -16,8 +16,11 @@ function figs = figureInitiate(userSettings)
     defaults.size      = 'normal'; % Figure shapes: 'normal', 'long', 'tall', 'double','full'
     defaults.trackFigs = 0; % Store figures in figs?
     defaults.plot      = 1; % Set to zero to not plot. Useful for controlling plotting within other functions. 
+    defaults.monitorArrangement = 'horizontal'; % Monitor arrangement: 'horizontal' or 'vertical'
 
-    addScreen = [1,0; 1,0; 1,0; 1,0; 1,0; 1,0]; % Used to increment screen position for 6 screen option
+    % Used to increment screen position for 6 screen option
+    addScreenHorizontal = [1,0; 1,0; 1,0; 1,0; 1,0; 1,0]; % Add to x-coordinate for horizontal arrangement
+    addScreenVertical = [0,-1; 0,-1; 0,-1; 0,-1; 0,-1; 0,-1];   % Add to y-coordinate for vertical arrangement
     
     % Copy all defaults into figs.
     figs = defaults;
@@ -32,6 +35,13 @@ function figs = figureInitiate(userSettings)
     end
     figs.matrix = figs.six; % Matrix used in figure plotting
     if figs.screens > 1 % If user has more than 1 screen
+        % Select the appropriate screen increment based on monitor arrangement
+        if strcmpi(figs.monitorArrangement, 'vertical')
+            addScreen = addScreenVertical;
+        else % Default to horizontal
+            addScreen = addScreenHorizontal;
+        end
+        
         temp = figs.six+addScreen; % Temp value with incremented positions
         for i = 2 : figs.screens % Loop through all screens
             figs.matrix = [figs.matrix; temp]; % Concatenate matrix
