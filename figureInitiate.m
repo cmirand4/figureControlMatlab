@@ -1,7 +1,7 @@
 function figs = figureInitiate(userSettings)
     % Author: Christopher Miranda, Stanford University, Schnitzer Lab
-    % Call once to initialize figure settings. Use figureControl.m to open
-    % figures. 
+    % Call once to initialize figure settings. Use figureControl.m or 
+    % figOpen.m to open figures. 
     if nargin < 1 % If no input by user
         userSettings = [];
     end
