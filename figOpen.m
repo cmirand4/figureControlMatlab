@@ -17,7 +17,7 @@ function [figs, figName] = figOpen(figs)
 if figs.plot
     switch figs.size
         case 'full'
-            if figs.cnt < 6
+            if figs.cnt <= 6
                 h = figure('units','normalized','outerposition',[0 0 1 1]);
             else
                 if strcmp(figs.monitorArrangement,'horizontal')
@@ -39,8 +39,13 @@ if figs.plot
                 figs.cnt = 1;
             end
         case 'long'
+            if figs.cnt == 3
+                figs.cnt = 4; 
+            elseif figs.cnt == 6 
+                figs.cnt = 1; 
+            end
             h = figure('units','normalized','outerposition',[figs.matrix(figs.cnt,:) figs.cols*2 figs.rows]);
-            figs.cnt = figs.cnt + 1;
+            figs.cnt = figs.cnt + 2;
             if figs.cnt > size(figs.matrix,1)
                 figs.cnt = 1;
             end
