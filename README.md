@@ -30,6 +30,9 @@ title('Figure 2');
 
 If you do not need the handle, `figs = figOpen(figs);` is enough.
 
+**Example of 6 figures opened**
+<img width="1917" height="1029" alt="image" src="https://github.com/user-attachments/assets/fdd6adfb-48f9-410d-af88-376f58fd481b" />
+
 ## Monitor arrangement
 
 Side-by-side monitors use the default. For **vertically stacked** monitors, set this before `figureInitiate`:
