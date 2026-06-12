@@ -17,11 +17,9 @@ function figs = figureInitiate(userSettings)
     defaults.trackFigs = 0; % Store figures in figs?
     defaults.plot      = 1; % Set to zero to not plot. Useful for controlling plotting within other functions. 
     defaults.monitorArrangement = 'horizontal'; % Monitor arrangement: 'horizontal' or 'vertical'
+    defaults.primaryHorizontal = 'left'; % Primary monitor: 'left' or 'right' (horizontal layout)
+    defaults.primaryVertical = 'top';     % Primary monitor: 'top' or 'bottom' (vertical layout)
 
-    % Used to increment screen position for 6 screen option
-    addScreenHorizontal = [1,0; 1,0; 1,0; 1,0; 1,0; 1,0]; % Add to x-coordinate for horizontal arrangement
-    addScreenVertical = [0,-1; 0,-1; 0,-1; 0,-1; 0,-1; 0,-1];   % Add to y-coordinate for vertical arrangement
-    
     % Copy all defaults into figs.
     figs = defaults;
 
@@ -35,17 +33,27 @@ function figs = figureInitiate(userSettings)
     end
     figs.matrix = figs.six; % Matrix used in figure plotting
     if figs.screens > 1 % If user has more than 1 screen
-        % Select the appropriate screen increment based on monitor arrangement
-        if strcmpi(figs.monitorArrangement, 'vertical')
-            addScreen = addScreenVertical;
-        else % Default to horizontal
-            addScreen = addScreenHorizontal;
-        end
-        
+        addScreen = getScreenOffset(figs);
         temp = figs.six+addScreen; % Temp value with incremented positions
         for i = 2 : figs.screens % Loop through all screens
             figs.matrix = [figs.matrix; temp]; % Concatenate matrix
             temp = temp+addScreen; % Adjust temp
         end
+    end
+end
+
+function addScreen = getScreenOffset(figs)
+    % Normalized offsets from the primary monitor to additional monitors.
+    rowOffset = [1, 0; 1, 0; 1, 0; 1, 0; 1, 0; 1, 0];
+    if strcmpi(figs.monitorArrangement, 'vertical')
+        if strcmpi(figs.primaryVertical, 'bottom')
+            addScreen = [0, 1; 0, 1; 0, 1; 0, 1; 0, 1; 0, 1];
+        else
+            addScreen = [0, -1; 0, -1; 0, -1; 0, -1; 0, -1; 0, -1];
+        end
+    elseif strcmpi(figs.primaryHorizontal, 'left')
+        addScreen = rowOffset;
+    else
+        addScreen = -rowOffset;
     end
 end

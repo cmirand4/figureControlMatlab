@@ -35,13 +35,27 @@ If you do not need the handle, `figs = figOpen(figs);` is enough.
 
 ## Monitor arrangement
 
-Side-by-side monitors use the default. For **vertically stacked** monitors, set this before `figureInitiate`:
+Positions use MATLAB normalized coordinates anchored to the **primary (main) display**. Figures 1–6 always tile on the primary monitor; additional monitors are offset from there.
+
+**Horizontal (default)** — side-by-side monitors. Default `primaryHorizontal` is `'left'` (primary on the left, second monitor to the right):
 
 ```matlab
-figs.monitorArrangement = 'vertical';  % default is 'horizontal'
 figs.screens = 2;
 figs = figureInitiate(figs);
 ```
+
+Use `primaryHorizontal = 'right'` if the primary monitor is on the right and the second monitor is to its left.
+
+**Vertical** — stacked monitors:
+
+```matlab
+figs.monitorArrangement = 'vertical';
+figs.screens = 2;
+figs.primaryVertical = 'top';  % default: extra monitors go below
+figs = figureInitiate(figs);
+```
+
+Use `primaryVertical = 'bottom'` if the primary monitor is on the bottom and the second monitor is above it.
 
 See `figureInitiate.m` for how the placement matrix is built.
 
@@ -53,6 +67,8 @@ Pass a struct into `figureInitiate`; any field you set overrides defaults. Commo
 |--------|------|
 | `screens` | Number of monitors to spread figures across |
 | `monitorArrangement` | `'horizontal'` (default) or `'vertical'` |
+| `primaryHorizontal` | `'left'` (default) or `'right'` — primary monitor position when horizontal |
+| `primaryVertical` | `'top'` (default) or `'bottom'` — primary monitor position when vertical |
 | `size` | Figure layout mode: `'normal'`, `'tall'`, `'long'`, `'double'`, `'extra long'`, `'full'` |
 | `plot` | Set to `0` to skip opening figures (e.g. when plotting is disabled inside a function under test) |
 | `trackFigs` | Set to `1` to store figure handles in `figs.figures` |
@@ -62,6 +78,6 @@ The default grid assumes **six** figures per screen (`rows`, `cols`, and interna
 ## For agents implementing this in user scripts
 
 - Add the repo (or copy these `.m` files) on the MATLAB path.
-- Call **`figureInitiate`** once with the user’s `screens` / `monitorArrangement` / `size` as needed.
+- Call **`figureInitiate`** once with the user’s `screens` / `monitorArrangement` / `primaryHorizontal` / `primaryVertical` / `size` as needed.
 - Replace bare `figure` calls with **`figOpen(figs)`** and thread **`figs`** through sequential figure creation.
 - Use **`[figs, figName] = figOpen(figs)`** when the script needs the figure handle (`figName`) for `axes`, `subplot`, or tests.

@@ -3,14 +3,14 @@ function [figs, figName] = figOpen(figs)
 % Call for every figure used to control where it shows up across multiple
 % screens. Use figureInitiate.m first.
 %
-% The figureInitiate.m function supports both horizontal and vertical monitor
-% arrangements through the 'monitorArrangement' parameter:
-%   - 'horizontal' (default): For side-by-side monitors
-%   - 'vertical': For vertically stacked monitors
+% The figureInitiate.m function supports monitor layout options:
+%   monitorArrangement: 'horizontal' (default) or 'vertical'
+%   primaryHorizontal:  'left' (default) or 'right'  — where the primary monitor sits
+%   primaryVertical:      'top' (default) or 'bottom'   — where the primary monitor sits
 %
 % Example usage:
 %   userSettings.screens = 2;
-%   userSettings.monitorArrangement = 'vertical'; % For vertically stacked monitors
+%   userSettings.primaryHorizontal = 'right'; % only if primary is on the right
 %   figs = figureInitiate(userSettings);
 %   [figs, fig1] = figOpen(figs);
 %
@@ -20,11 +20,7 @@ if figs.plot
             if figs.cnt <= 6
                 h = figure('units','normalized','outerposition',[0 0 1 1]);
             else
-                if strcmp(figs.monitorArrangement,'horizontal')
-                    h = figure('units','normalized','outerposition',[1 0 1 1]);
-                else
-                    h = figure('units','normalized','outerposition',[0 1 1 1]);
-                end
+                h = figure('units','normalized','outerposition',getFullScreenPosition(figs));
             end
         case 'normal'
             h = figure('units','normalized','outerposition',[figs.matrix(figs.cnt,:) figs.cols figs.rows]);
@@ -76,4 +72,18 @@ if figs.plot
     figs.figsGen = figs.figsGen+1;
     figName = h;
 end
-end 
+end
+
+function pos = getFullScreenPosition(figs)
+    if strcmpi(figs.monitorArrangement, 'vertical')
+        if isfield(figs, 'primaryVertical') && strcmpi(figs.primaryVertical, 'bottom')
+            pos = [0 1 1 1];
+        else
+            pos = [0 -1 1 1];
+        end
+    elseif isfield(figs, 'primaryHorizontal') && strcmpi(figs.primaryHorizontal, 'left')
+        pos = [1 0 1 1];
+    else
+        pos = [-1 0 1 1];
+    end
+end
