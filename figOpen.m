@@ -31,6 +31,8 @@ if figs.plot
         case 'tall'
             if figs.cnt < 4
                 figs.cnt = 4;
+            elseif figs.cnt > 6 && figs.cnt < 10
+                figs.cnt = 10; 
             end
             h = figure('units','normalized','outerposition',[figs.matrix(figs.cnt,:) figs.cols 2*figs.rows]);
             figs.cnt = figs.cnt + 1;
@@ -66,6 +68,8 @@ if figs.plot
                 figs.cnt = 4;
             elseif figs.cnt == size(figs.matrix,1)
                 figs.cnt = figs.cnt - 1; 
+            elseif figs.cnt > 6 && figs.cnt < 10
+                figs.cnt = 10; 
             end
             h = figure('units','normalized','outerposition',[figs.matrix(figs.cnt,:) figs.cols*2 2*figs.rows]);
         otherwise

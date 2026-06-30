@@ -18,7 +18,7 @@ function figs = figureInitiate(userSettings)
     defaults.plot      = 1; % Set to zero to not plot. Useful for controlling plotting within other functions. 
     defaults.monitorArrangement = 'horizontal'; % Monitor arrangement: 'horizontal' or 'vertical'
     defaults.primaryHorizontal = 'left'; % Primary monitor: 'left' or 'right' (horizontal layout)
-    defaults.primaryVertical = 'top';     % Primary monitor: 'top' or 'bottom' (vertical layout)
+    defaults.primaryVertical = 'bottom';     % Primary monitor: 'top' or 'bottom' (vertical layout)
 
     % Copy all defaults into figs.
     figs = defaults;
